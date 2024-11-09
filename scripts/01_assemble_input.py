@@ -25,7 +25,7 @@ for input_filename in input_filenames:
     molecules = list(set(molecules))
 
 smi2names = collections.defaultdict(list)
-for m in molecules:
+for m in tqdm(molecules):
     mol = Chem.MolFromSmiles(m[0])
     name = m[1].strip()
     if mol is None:
@@ -41,18 +41,18 @@ for m in molecules:
 
 smi2name = dict((k, " | ".join(sorted(set(v)))) for k,v in smi2names.items())
 
-output_filename = os.path.join(DATA_DIR, "all_molecules.tsv")
+output_filename = os.path.join(DATA_DIR, "..", "all_molecules.tsv")
 with open(output_filename, "w") as f:
     writer = csv.writer(f, delimiter="\t")
     writer.writerow(["inchikey", "smiles", "name"])
     smiles = sorted([k for k, _ in smi2name.items()])
-    for smi in smiles:
+    for smi in tqdm(smiles):
         mol = Chem.MolFromSmiles(smi)
         name = smi2name[smi]
-        inchikey = Chem.MolToInChiKey(mol)
+        inchikey = Chem.MolToInchiKey(mol)
         writer.writerow([inchikey, smi, name])
 
-output_smiles_filename = os.path.join(DATA_DIR, "all_smiles.csv")
+output_smiles_filename = os.path.join(DATA_DIR, "..", "all_smiles.csv")
 with open(output_smiles_filename, "w") as f:
     writer = csv.writer(f)
     writer.writerow(["smiles"])
