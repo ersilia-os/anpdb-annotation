@@ -108,7 +108,7 @@ else:
 if selected_model_id is not None:
     readme = model_readmes[selected_model_id]
     description = readme.split("# ")[1].split("## ")[0].split("\n")[1:]
-    description = "\n".join(description).strip("\n").replace("\n", "")
+    description = "\n".join(description).strip("\n").replace("\n", "").replace("#", "")
     publication_url = readme.split("[Publication]")[1].split("(")[1].split(")")[0]
     code_url = readme.split("[Source Code]")[1].split("(")[1].split(")")[0]
     st.markdown(description)
