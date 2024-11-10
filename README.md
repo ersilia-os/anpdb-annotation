@@ -4,12 +4,15 @@ Annotation of ANPDB compounds using the [Ersilia Model Hub](https://gihtub.com/e
 
 The purpose of this pipeline is to **annotate the ANPDB** with a few **selected models from the Ersilia Model Hub**. The pipeline starts with chemical structures (SMILES strings) and it returns a table with multiple calculations properties and predictions.
 
-At a high level, 
+At a high level, we calculate the following properties:
 * Physicochemical properties
 * Synthetic accessibility properties
 * ADMET properties
 * Bioactivity prediction against some pathogens such as _Plasmodium falciparum_ and _Mycobacterium tuberculosis_.
 * Chemical space exploration components for 2D visualization
+
+There is an **app associated with this pipeline**. Click the link below to access it:
+* [ANPDB Annotation Demo App](https://anpdb-annotation.streamlit.app/)
 
 ## Installation
 

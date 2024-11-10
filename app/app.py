@@ -24,6 +24,12 @@ def load_models_metadata():
     return data
 
 @st.cache_data
+def load_models_readmes():
+    with open(os.path.join(RESULTS_DIR, "models_readmes.json"), "r") as f:
+        data = json.load(f)
+    return data
+
+@st.cache_data
 def load_model_categories():
     with open(os.path.join(DATA_DIR, "models_by_category.json"), "r") as f:
         data = json.load(f)
@@ -32,19 +38,20 @@ def load_model_categories():
 df = load_results_data()
 models_metadata = load_models_metadata()
 model_categories = load_model_categories()
+model_readmes = load_models_readmes()
 
 # App layout
 
 # Sidebar
 
-st.sidebar.title("What is in this repository?")
-st.sidebar.markdown("This repository contains the results of the annotation of the African Natural Products Database with the Ersilia Model Hub.")
-st.sidebar.markdown("Models were selected based on the interests of the UB-CeDD at the University of Buea, Cameroon.")
-st.sidebar.markdown("To reproduce this code or run the app locally, please visit Ersilia's [anpdb-annotation](https://github.com/ersilia-os/anpdb-annotation) GitHub repository.")
+st.sidebar.header("About this app")
+st.sidebar.markdown("This app was developed as part of a **capacity building workshop** on AI/ML for drug discovery in **Buea, Cameroon** in November 2024. The tool is designed to help researchers explore the **African Natural Products Database** (ANPDB) annotated with predictions from the **Ersilia Model Hub**.")
+st.sidebar.markdown("To reproduce this code or run the app locally, please visit the [anpdb-annotation](https://github.com/ersilia-os/anpdb-annotation) GitHub repository.")
 st.sidebar.header("About ANPDB")
+st.sidebar.markdown("The [African Natural Products Database](https://african-compounds.org/anpdb/) is a database of natural product compounds found in Africa. It is maintained by the [University of Buea Centre for Drug Discovery](https://www.ub-cedd.org/).")
 
 st.sidebar.header("About the Ersilia Model Hub")
-st.sidebar.markdown("The [Ersilia Model Hub](https://github.com/ersilia-os/ersilia) is a repository of AI/ML for drug discovery.")
+st.sidebar.markdown("The [Ersilia Model Hub](https://github.com/ersilia-os/ersilia) is a repository of AI/ML for drug discovery. It is maintained by the [Ersilia Open Source Initiative](https://ersilia.io).")
 
 st.sidebar.warning("This app contains calculations and predictions made with AI/ML models. It is possible that the predictions are not accurate. Please use the information provided with caution.")
 st.sidebar.info("The Ersilia Model Hub is intended for research purposes. Please [report any issues](https://github.com/ersilia-os/anpdb-annotation/issues) to the Ersilia team.")
@@ -90,3 +97,19 @@ st.download_button(
 )
 
 st.header(":book: Learn more about the models")
+models = [x for k,v in model_categories.items() for x in v]
+options = ["{0}: {1}".format(model, models_metadata[model]["title"]) for model in models]
+selected_option = st.selectbox("Select a model", options, index=None)
+if selected_option is not None:
+    selected_model_id = selected_option.split(":")[0]
+else:
+    selected_model_id = None
+
+if selected_model_id is not None:
+    readme = model_readmes[selected_model_id]
+    description = readme.split("# ")[1].split("## ")[0].split("\n")[1:]
+    description = "\n".join(description).strip("\n").replace("\n", "")
+    publication_url = readme.split("[Publication]")[1].split("(")[1].split(")")[0]
+    code_url = readme.split("[Source Code]")[1].split("(")[1].split(")")[0]
+    st.markdown(description)
+    st.markdown("* [Publication]({0})\n* [Code](code_url)".format(publication_url))
