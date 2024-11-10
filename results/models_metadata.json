@@ -1,0 +1,41 @@
+{
+    "eos9ei3": {
+        "title": "Synthetic accessibility score"
+    },
+    "eos9yui": {
+        "title": "Natural product likeness score"
+    },
+    "eos2r5a": {
+        "title": "Retrosynthetic accessibility score"
+    },
+    "eos4djh": {
+        "title": "Basic molecular descriptors from Datamol"
+    },
+    "eos7d58": {
+        "title": "ADMET properties prediction"
+    },
+    "eos2ta5": {
+        "title": "Ligand-based prediction of hERG blockade"
+    },
+    "eos8fth": {
+        "title": "SARS-CoV-2 antiviral prediction: REDIAL-2020"
+    },
+    "eos9f6t": {
+        "title": "SARS-CoV inhibition"
+    },
+    "eos3nn9": {
+        "title": "Predict bioactivity against Main Protease of SARS-CoV-2"
+    },
+    "eos4e40": {
+        "title": "Broad spectrum antibiotic activity"
+    },
+    "eos7kpb": {
+        "title": "H3D virtual screening cascade light"
+    },
+    "eos4zfy": {
+        "title": "MAIP: antimalarial activity prediction"
+    },
+    "eos9gg2": {
+        "title": "Chemical space 2D projections against DrugBank"
+    }
+}
