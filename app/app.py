@@ -8,12 +8,11 @@ RESULTS_DIR = os.path.abspath(os.path.join(ROOT, "..", "results"))
 DATA_DIR = os.path.abspath(os.path.join(ROOT, "..", "data"))
 
 # Setting up Streamlit App
-st.set_page_config(layout="wide")
+st.set_page_config(layout="wide", page_title="ANPDB Ersilia Model Hub Annotation")
 
 # Loading necessary data
 @st.cache_data
 def load_results_data():
-    return None
     df = pd.read_csv(os.path.join(RESULTS_DIR, "anpdb_annotated.tsv"), sep="\t")
     return df
 
@@ -39,6 +38,8 @@ df = load_results_data()
 models_metadata = load_models_metadata()
 model_categories = load_model_categories()
 model_readmes = load_models_readmes()
+
+available_model_ids = [x.split("_")[-1] for x in list(df.columns)[3:]]
 
 # App layout
 
@@ -68,18 +69,22 @@ def create_model_checkbox(col, category, value=None):
     if value is not None:
         value = display_options[value]
     selected_options = col.pills(options=display_options, label=title, selection_mode="multi", default=value)
-    return [x.split(":")[0] for x in selected_options]
+    return [x.split("[")[1].split("]")[0] for x in selected_options]
 
 st.header(":robot_face: Select models to display!")
 
-chem_model_ids = create_model_checkbox(st, "Chemical Properties", value=0)
+chem_model_ids = create_model_checkbox(st, "Chemical Properties")
 adme_model_ids = create_model_checkbox(st, "ADMET")
 bact_model_ids = create_model_checkbox(st, "Bioactivity")
 proj_model_ids = create_model_checkbox(st, "2D projections")
 
+selected_model_ids = chem_model_ids + adme_model_ids + bact_model_ids + proj_model_ids
+selected_model_ids = [x for x in selected_model_ids if x in available_model_ids]
+
 st.header(":herb: Explore the data")
 
-df = pd.DataFrame()
+columns_to_keep = list(df.columns)[:3] + [x for x in list(df.columns[3:]) if x.split("_")[-1] in selected_model_ids]
+df = df[columns_to_keep]
 st.dataframe(df)
 
 @st.cache_data
