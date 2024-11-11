@@ -2,7 +2,6 @@ filename="../data/models_to_run2.txt"
 
 ersilia -v fetch eos9f6t --from_dockerhub
 ersilia -v fetch eos7kpb --from_dockerhub
-ersilia -v fetch eos4zfy --from_dockerhub
 ersilia -v fetch eos9gg2 --from_dockerhub
 
 while IFS= read -r MODEL_ID; do
