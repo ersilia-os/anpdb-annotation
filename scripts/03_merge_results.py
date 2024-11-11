@@ -45,8 +45,6 @@ def load_model_results_file(model_id):
     return df
 
 for model_id in model_ids:
-    if model_id in ["eos4e40"]:
-        continue
     df_ = load_model_results_file(model_id)
     if df_ is None:
         continue
